@@ -22,7 +22,7 @@ public class Main {
         readFromFile();
         downloadFileFromURL(url, input);
         // write "urls.txt"
-        // create list only with domains
+        listWithOnlyDomains();
         // find the most frequent domains and write "result.txt"
     }
 
@@ -57,6 +57,21 @@ public class Main {
             fileOutputStream.getChannel().transferFrom(inputStream, 0, Long.MAX_VALUE);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    private  static void listWithOnlyDomains(){
+        ArrayList<String> list = new ArrayList<String>();
+
+        for ( int i = 0; i < list.size(); i++) {
+
+            String[] strToArray = list.get(i).split("/");
+
+            if (strToArray[0].startsWith("www.")) {
+                strToArray[0].replaceAll("www.", "");
+            }
+            ArrayList<String> newList = new ArrayList<String>();
+            newList.add(strToArray[0]);
+
         }
     }
 }
