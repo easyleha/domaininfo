@@ -1,13 +1,19 @@
 package com.hillel;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 
 public class Main {
@@ -18,10 +24,10 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-
         readFromFile();
+        cleanResultsOldLaunches();
         downloadFileFromURL(url, input);
-        // write "urls.txt"
+        readFileIntoList();
         listWithOnlyDomains();
         // find the most frequent domains and write "result.txt"
     }
@@ -48,6 +54,17 @@ public class Main {
         scanner.close();
     }
 
+    private static void cleanResultsOldLaunches() {
+        File file = new File("settings.txt");
+        if (file.exists()) {
+            try {
+                file.delete();
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Error");
+            }
+        }
+    }
 
     public static void downloadFileFromURL(String path, String file) {
         try {
@@ -59,6 +76,19 @@ public class Main {
             e.printStackTrace();
         }
     }
+
+    private static void readFileIntoList() {
+        String file = "settings.txt";
+        List<String> list = new ArrayList<>();
+
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(file))) {
+            list = reader.lines().collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        list.forEach(System.out::println);
+    }
+
     private  static void listWithOnlyDomains(){
         ArrayList<String> list = new ArrayList<String>();
 
