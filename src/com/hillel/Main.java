@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -67,10 +68,16 @@ public class Main {
     }
 
     public static void downloadFileFromURL(String path, String file) {
+
+        URL url = null;
         try {
-            URL url = new URL(path);
-            ReadableByteChannel inputStream = Channels.newChannel(url.openStream());
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            url = new URL(path);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             ReadableByteChannel inputStream = Channels.newChannel(url.openStream());) {
             fileOutputStream.getChannel().transferFrom(inputStream, 0, Long.MAX_VALUE);
         } catch (IOException e) {
             e.printStackTrace();
