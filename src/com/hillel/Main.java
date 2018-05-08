@@ -68,7 +68,6 @@ public class Main {
     }
 
     public static void downloadFileFromURL(String path, String file) {
-
         URL url = null;
         try {
             url = new URL(path);
@@ -84,7 +83,7 @@ public class Main {
         }
     }
 
-    private static void readFileIntoList() {
+    private static List<String> readFileIntoList() {
         String file = "settings.txt";
         List<String> list = new ArrayList<>();
 
@@ -93,7 +92,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        list.forEach(System.out::println);
+        return list;
     }
 
     private  static void listWithOnlyDomains(){
